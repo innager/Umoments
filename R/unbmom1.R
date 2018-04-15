@@ -19,73 +19,81 @@
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
+#' m <- mean(smp)
 #' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
-#' }
-#' M6one(m2, m3, m4, m6, n)
+#'   m <- c(m, mean((smp - m[1])^j)) 
+#' }                                   
+#' uM6(m[2], m[3], m[4], m[6], n)
 #' @export
-M6one <- function(m2, m3, m4, m6, n) {
+uM6 <- function(m2, m3, m4, m6, n) {
     15*m2^3*(3*n - 10)*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 40*(n^2 - 6*n + 10)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 15*(n^3 - 8*n^2 + 29*n - 40)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 31*n^2 - 39*n + 40)*m6*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased variance estimate.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
-#' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
-#' }
-#' M2one(m2, n)
+#' m <- mean(smp)
+#' m <- c(m, mean((smp - m[1])^2))
+#' uM2(m[2], n) - var(smp)
 #' @export
-M2one <- function(m2, n) {
+uM2 <- function(m2, n) {
     m2*n/(n - 1)
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased estimate of a third central moment.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
-#' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#' m <- mean(smp)
+#' for (j in 2:3) {
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M3one(m3, n)
+#' uM3(m[3], n)
 #' @export
-M3one <- function(m3, n) {
+uM3 <- function(m3, n) {
     m3*n^2/((n - 1)*(n - 2))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased estimate of squared variance \eqn{\mu_2^2}{\mu[2]^2}, where
 #'   \eqn{\mu_2}{\mu[2]} is a variance.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
-#' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#' m <- mean(smp)
+#' for (j in 2:4) {
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M2pow2one(m2, m4, n)
+#' uM2pow2(m[2], m[4], n)
 #' @export
-M2pow2one <- function(m2, m4, n) {
+uM2pow2 <- function(m2, m4, n) {
     (n^2 - 3*n + 3)*m2^2*n/((n - 1)*(n - 2)*(n - 3)) - m4*n/((n - 2)*(n - 3))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased estimate of a fourth central moment.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
-#' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#' m <- mean(smp)
+#' for (j in 2:4) {
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M4one(m2, m4, n)
+#' uM4(m[2], m[4], n)
 #' @export
-M4one <- function(m2, m4, n) {
+uM4 <- function(m2, m4, n) {
     -3*m2^2*(2*n - 3)*n/((n - 1)*(n - 2)*(n - 3)) + (n^2 - 2*n + 3)*m4*n/((n - 1)*(n - 2)*(n - 3))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @param m5 naive biased fifth central moment estimate \eqn{m_5 = \sum_{i =
 #'   1}^n ((X_i - \bar{X})^5}{m[5] = mean((X - X-bar)^5)} for a vector \code{X}.
 #' @return Unbiased estimate of a product of second and third central moments
@@ -94,73 +102,82 @@ M4one <- function(m2, m4, n) {
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
-#' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#' m <- mean(smp)
+#' for (j in 2:5) {
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M2M3one(m2, m3, m5, n)
+#' uM2M3(m[2], m[3], m[5], n)
 #' @export
-M2M3one <- function(m2, m3, m5, n) {
+uM2M3 <- function(m2, m3, m5, n) {
     (n^2 - 2*n + 2)*m2*m3*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)) - m5*n^2/((n - 2)*(n - 3)*(n - 4))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
-#' @inheritParams M2M3one
+#' @inherit uM6 title description params
+#' @inheritParams uM2M3
 #' @return Unbiased estimate of a fifth central moment.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
-#' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#' m <- mean(smp)
+#' for (j in 2:5) {
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M5one(m2, m3, m5, n)
+#' uM5(m[2], m[3], m[5], n)
 #' @export
-M5one <- function(m2, m3, m5, n) {
+uM5 <- function(m2, m3, m5, n) {
     -10*m2*m3*n^2/((n - 1)*(n - 3)*(n - 4)) + (n^2 - 5*n + 10)*m5*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased estimate of cubed variance  central moment
 #'   \eqn{\mu_2^3}{\mu[2]^3}, where \eqn{\mu_2}{\mu[2]} is a variance.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
+#' m <- mean(smp)
 #' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M2pow3one(m2, m3, m4, m6, n)
+#' uM2pow3(m[2], m[3], m[4], m[6], n)
 #' @export
-M2pow3one <- function(m2, m3, m4, m6, n) {
+uM2pow3 <- function(m2, m3, m4, m6, n) {
     (n^2 - 7*n + 15)*m2^3*n^2/((n - 1)*(n - 3)*(n - 4)*(n - 5)) - 3*(n^2 - 5*n + 10)*m2*m4*n/((n - 1)*(n - 3)*(n - 4)*(n - 5)) + 2*m6*n/((n - 3)*(n - 4)*(n - 5)) - 2*(3*n^2 - 15*n + 20)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased estimate of squared third central moment
 #'   \eqn{\mu_3^2}{\mu[3]^2}, where \eqn{\mu_3}{\mu[3]} is a third central
 #'   moment.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
+#' m <- mean(smp)
 #' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M3pow2one(m2, m3, m4, m6, n)
+#' uM3pow2(m[2], m[3], m[4], m[6], n)
 #' @export
-M3pow2one <- function(m2, m3, m4, m6, n) {
+uM3pow2 <- function(m2, m3, m4, m6, n) {
     -3*(3*n^2 - 15*n + 20)*m2^3*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - (n^2 - n + 4)*m6*n/((n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 8*n^3 + 25*n^2 - 10*n - 40)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + 3*(2*n^3 - 5*n^2 - 5*n + 20)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }
+
 #' @family unbiased estimates (one-sample)
-#' @inherit M6one title description params
+#' @inherit uM6 title description params
 #' @return Unbiased estimate of a product of second and fourth central moments
 #'   \eqn{\mu_2 \mu_4}{\mu[2] \mu[4]}, where \eqn{\mu_2}{\mu[2]} and
 #'   \eqn{\mu_4}{\mu[4]} are second and fourth central moments respectively.
 #' @examples
 #' n <- 10
 #' smp <- rgamma(n, shape = 3)
+#' m <- mean(smp)
 #' for (j in 2:6) {
-#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#'   m <- c(m, mean((smp - m[1])^j))
 #' }
-#' M2M4one(m2, m3, m4, m6, n)
+#' uM2M4(m[2], m[3], m[4], m[6], n)
 #' @export
-M2M4one <- function(m2, m3, m4, m6, n) {
+uM2M4 <- function(m2, m3, m4, m6, n) {
     -3*m2^3*(2*n - 5)*n^2/((n - 1)*(n - 3)*(n - 4)*(n - 5)) + 4*(n^2 - 5*n + 10)*m3^2*n/((n - 1)*(n - 3)*(n - 4)*(n - 5)) - (n^2 - 3*n + 8)*m6*n/((n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 53*n^2 - 135*n + 120)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }

@@ -50,31 +50,31 @@ unbMom <- function(smp, order) {
     }
     m1 <- mean(smp)
     m3 <- mean((smp - m1)^3)
-    M3 <- M3one(m3, n)
+    M3 <- uM3(m3, n)
     res <- c(res, M3 = M3)
     if (order == 3) {
         return(res)
     }
     m2 <- mean((smp - m1)^2)
     m4 <- mean((smp - m1)^4)
-    M2pow2 <- M2pow2one(m2, m4, n)
-    M4     <- M4one(    m2, m4, n)
+    M2pow2 <- uM2pow2(m2, m4, n)
+    M4     <- uM4(    m2, m4, n)
     res <- c(res, M2pow2 = M2pow2, M4 = M4)
     if (order == 4) {
         return(res)
     }
     m5 <- mean((smp - m1)^5)
-    M2M3 <- M2M3one(m2, m3, m5, n)
-    M5   <- M5one(  m2, m3, m5, n)
+    M2M3 <- uM2M3(m2, m3, m5, n)
+    M5   <- uM5(  m2, m3, m5, n)
     res <- c(res, M2M3 = M2M3, M5 = M5)
     if (order == 5) {
         return(res)
     }
     m6 <- mean((smp - m1)^6)
-    M2pow3 <- M2pow3one(m2, m3, m4, m6, n)
-    M3pow2 <- M3pow2one(m2, m3, m4, m6, n)
-    M2M4   <- M2M4one(  m2, m3, m4, m6, n)
-    M6     <- M6one(    m2, m3, m4, m6, n)
+    M2pow3 <- uM2pow3(m2, m3, m4, m6, n)
+    M3pow2 <- uM3pow2(m2, m3, m4, m6, n)
+    M2M4   <- uM2M4(  m2, m3, m4, m6, n)
+    M6     <- uM6(    m2, m3, m4, m6, n)
     res <- c(res, M2pow3 = M2pow3, M3pow2 = M3pow2, M2M4 = M2M4, M6 = M6)
     if (order == 6) {
         return(res)
@@ -105,9 +105,9 @@ unbMom <- function(smp, order) {
 #' @seealso \code{\link{unbMom}} for one-sample unbiased estimates.
 #' @examples
 #' nsmp <- 23
-#' smp2 <- rgamma(nsmp, shape = 3)
+#' smp <- rgamma(nsmp, shape = 3)
 #' treatment <- sample(0:1, size = nsmp, replace = TRUE)
-#' unbMom2smp(smp2, treatment, 6)
+#' unbMom2smp(smp, treatment, 6)
 #' @export
 unbMom2smp <- function(smp, a, order) {
     if (length(unique(a)) != 2 | length(a) != length(smp)) {
@@ -130,36 +130,36 @@ unbMom2smp <- function(smp, a, order) {
     mx1 <- mean(smpx)
     my1 <- mean(smpy)
     m2 <- mean(c((smpx - mx1)^2, (smpy - my1)^2))
-    M2 <- M2two(m2, nx, ny)
+    M2 <- uM2pool(m2, nx, ny)
     res <- c(M2 = M2)
     if (order == 2) {
         return(res)
     }
     m3 <- mean(c((smpx - mx1)^3, (smpy - my1)^3))
-    M3 <- M3two(m3, nx, ny)
+    M3 <- uM3pool(m3, nx, ny)
     res <- c(res, M3 = M3)
     if (order == 3) {
         return(res)
     }
     m4 <-  mean(c((smpx - mx1)^4, (smpy - my1)^4))
-    M2pow2 <- M2pow2two(m2, m4, nx, ny)
-    M4     <- M4two(    m2, m4, nx, ny)
+    M2pow2 <- uM2pow2pool(m2, m4, nx, ny)
+    M4     <- uM4pool(    m2, m4, nx, ny)
     res <- c(res, M2pow2 = M2pow2, M4 = M4)
     if (order == 4) {
         return(res)
     }
     m5 <- mean(c((smpx - mx1)^5, (smpy - my1)^5))
-    M2M3 <- M2M3two(m2, m3, m5, nx, ny)
-    M5   <- M5two(  m2, m3, m5, nx, ny)
+    M2M3 <- uM2M3pool(m2, m3, m5, nx, ny)
+    M5   <- uM5pool(  m2, m3, m5, nx, ny)
     res <- c(res, M2M3 = M2M3, M5 = M5)
     if (order == 5) {
         return(res)
     }
     m6 <- mean(c((smpx - mx1)^6, (smpy - my1)^6))
-    M2pow3 <- M2pow3two(m2, m3, m4, m6, nx, ny)
-    M3pow2 <- M3pow2two(m2, m3, m4, m6, nx, ny)
-    M2M4   <- M2M4two(  m2, m3, m4, m6, nx, ny)
-    M6     <- M6two(    m2, m3, m4, m6, nx, ny)
+    M2pow3 <- uM2pow3pool(m2, m3, m4, m6, nx, ny)
+    M3pow2 <- uM3pow2pool(m2, m3, m4, m6, nx, ny)
+    M2M4   <- uM2M4pool(  m2, m3, m4, m6, nx, ny)
+    M6     <- uM6pool(    m2, m3, m4, m6, nx, ny)
     res <- c(res, M2pow3 = M2pow3, M3pow2 = M3pow2, M2M4 = M2M4, M6 = M6)
     if (order == 6) {
         return(res)

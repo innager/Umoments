@@ -40,9 +40,9 @@ cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 }
 \examples{
 nsmp <- 23
-smp2 <- rgamma(nsmp, shape = 3)
+smp <- rgamma(nsmp, shape = 3)
 treatment <- sample(0:1, size = nsmp, replace = TRUE)
-unbMom2smp(smp2, treatment, 6)
+unbMom2smp(smp, treatment, 6)
 }
 \seealso{
 \code{\link{unbMom}} for one-sample unbiased estimates.
