@@ -10,7 +10,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<meta name="author" content="Inna Gerlovina, Alan Hubbard" />
 
+<meta name="date" content="2018-07-08" />
 
 <title>Unbiased Central Moment Estimates</title>
 
@@ -67,6 +69,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Unbiased Central Moment Estimates</h1>
+<h4 class="author"><em>Inna Gerlovina, Alan Hubbard</em></h4>
+<h4 class="date"><em>2018-07-08</em></h4>
 
 
 
@@ -89,15 +93,15 @@ m[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">mean
 <p>Calculate unbiased estimates - examples:</p>
 <p><span class="math inline">\(M(\mu_4)\)</span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">uM4</span>(m[<span class="dv">2</span>], m[<span class="dv">4</span>], n)          </code></pre></div>
-<pre><code>## [1] 10.14357</code></pre>
+<pre><code>## [1] 291.5748</code></pre>
 <p><span class="math inline">\(M(\mu_2 \, \mu_3) \neq M(\mu_2) M(\mu_3)\)</span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">uM2M3</span>(m[<span class="dv">2</span>], m[<span class="dv">3</span>], m[<span class="dv">5</span>], n)  </code></pre></div>
-<pre><code>## [1] 6.160556</code></pre>
+<pre><code>## [1] 41.03523</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">uM2</span>(m[<span class="dv">2</span>], n)<span class="op">*</span><span class="kw">uM3</span>(m[<span class="dv">3</span>], n)</code></pre></div>
-<pre><code>## [1] 6.119322</code></pre>
+<pre><code>## [1] 238.9589</code></pre>
 <p><span class="math inline">\(M\big(\mu_3^2\big)\)</span></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">uM3pow2</span>(m[<span class="dv">2</span>], m[<span class="dv">3</span>], m[<span class="dv">4</span>], m[<span class="dv">6</span>], n)              </code></pre></div>
-<pre><code>## [1] 7.738135</code></pre>
+<pre><code>## [1] 20.34337</code></pre>
 <p>Two-sample pooled estimates are calculated in a similar manner. For a sample <span class="math inline">\(X_1, \dotsc, X_{n_x}, Y_1, \dotsc, Y_{n_y}\)</span>, let <span class="math display">\[m_k = \frac{\sum_{i = 1}^{n_x} (X_i - \bar{X})^k + \sum_{i = 1}^{n_y} (Y_i - \bar{Y})^k}{n_x + n_y}.\]</span> These naïve biased estimates together with <span class="math inline">\(n_x\)</span>, <span class="math inline">\(n_y\)</span> are sufficient for calculating unbiased pooled estimates of a corresponding order.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nx &lt;-<span class="st"> </span><span class="dv">10</span>
 ny &lt;-<span class="st"> </span><span class="dv">8</span>
@@ -111,9 +115,9 @@ m  &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dv
   m[j] &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">c</span>((smpx <span class="op">-</span><span class="st"> </span>mx)<span class="op">^</span>j, (smpy <span class="op">-</span><span class="st"> </span>my)<span class="op">^</span>j))
 }
 <span class="kw">uM2pool</span>(m[<span class="dv">2</span>], nx, ny)</code></pre></div>
-<pre><code>## [1] 1.721948</code></pre>
+<pre><code>## [1] 1.982941</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">uM2pow3pool</span>(m[<span class="dv">2</span>], m[<span class="dv">3</span>], m[<span class="dv">4</span>], m[<span class="dv">6</span>], nx, ny)</code></pre></div>
-<pre><code>## [1] 4.224112</code></pre>
+<pre><code>## [1] 6.403871</code></pre>
 </div>
 <div id="estimates-obtained-from-a-sample" class="section level2">
 <h2>Estimates obtained from a sample</h2>
@@ -125,13 +129,13 @@ smp &lt;-<span class="st"> </span><span class="kw">rgamma</span>(nsmp, <span cla
 treatment &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dt">size =</span> nsmp, <span class="dt">replace =</span> <span class="ot">TRUE</span>)  
 <span class="co"># estimates</span>
 <span class="kw">uM</span>(smp, <span class="dv">5</span>)</code></pre></div>
-<pre><code>##        M2        M3    M2pow2        M4      M2M3        M5 
-##  2.180079  1.725320  4.378437 12.589462  3.146892 25.861499</code></pre>
+<pre><code>##         M2         M3     M2pow2         M4       M2M3         M5 
+##   3.262931   6.816703   8.929116  47.622280  14.554524 231.070627</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">uMpool</span>(smp, treatment, <span class="dv">6</span>)</code></pre></div>
 <pre><code>##          M2          M3      M2pow2          M4        M2M3          M5 
-##   2.2660554   1.6782823   4.7425870  12.8649262   3.2436483  23.9884947 
+##    3.214253    9.974354    7.604992   68.843613   17.323353  398.017209 
 ##      M2pow3      M3pow2        M2M4          M6 
-##   9.1927439   0.5110419  25.3380736 106.3494198</code></pre>
+##   15.150461   14.607896  119.787995 2437.242824</code></pre>
 <p>Note that even if <span class="math inline">\(n_x = n_y\)</span>, the estimates for one and two-sample statistics are not the same since two-sample ones have fewer degrees of freedom.</p>
 </div>
 <div id="higher-order-estimates-symbolic-expressions-for-expectations" class="section level2">

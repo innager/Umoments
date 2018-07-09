@@ -1,7 +1,7 @@
 ---
 title: "Unbiased Central Moment Estimates"
-#author: "Inna Gerlovina"
-#date: "`r Sys.Date()`"
+author: "Inna Gerlovina, Alan Hubbard"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Unbiased Central Moment Estimates}
