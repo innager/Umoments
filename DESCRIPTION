@@ -6,10 +6,9 @@ Author: Inna Gerlovina [aut, cre],
         Alan E. Hubbard [aut]
 Maintainer: Inna Gerlovina <innager@berkeley.edu>
 Description: Calculates one-sample unbiased central moment estimates and
-    two-sample pooled estimates up to 6th order, which includes unbiased
-    estimates of powers and products of central moments. Also provides the
-    machinery for obtaining unbiased central moment estimators of an arbitrary
-    order beyond 6th.
+    two-sample pooled estimates up to 6th order, including unbiased estimates
+    of powers and products of central moments. Provides the machinery for
+    obtaining unbiased central moment estimators beyond 6th order.
 Depends: R (>= 3.4.0)
 Imports: stats, utils
 License: GPL (>= 2)    
