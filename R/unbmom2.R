@@ -11,7 +11,7 @@
 #' uM2pool(m2, nx, ny)
 #' @export
 uM2pool <- function(m2, n_x, n_y) {
-    m2*(n_x + n_y)/(n_x + n_y - 2)
+  m2*(n_x + n_y)/(n_x + n_y - 2)
 }
 
 #' @family pooled estimates (two-sample)
@@ -32,7 +32,7 @@ uM2pool <- function(m2, n_x, n_y) {
 #' uM3pool(m[3], nx, ny)
 #' @export
 uM3pool <- function(m3, n_x, n_y) {
-    m3*n_x*n_y*(n_x + n_y)/(n_x^2*n_y + n_x*n_y^2 - 6*n_x*n_y + 2*n_x + 2*n_y)
+  m3*n_x*n_y*(n_x + n_y)/(n_x^2*n_y + n_x*n_y^2 - 6*n_x*n_y + 2*n_x + 2*n_y)
 }
 
 #' @family pooled estimates (two-sample)
@@ -75,7 +75,7 @@ uM2pow2pool <- function(m2, m4, n_x, n_y) {
 #' uM4pool(m[2], m[4], nx, ny)
 #' @export
 uM4pool <- function(m2, m4, n_x, n_y) {
-    n_x*n_y*(3*m2^2*(n_x^2 + 2*n_x*n_y + n_y^2)*(4*n_x^2*n_y^2 - 5*n_x^2*n_y + 3*n_x^2 - 5*n_x*n_y^2 + 3*n_y^2) - m4*n_x*n_y*(n_x + n_y)*(n_x^3*n_y + 2*n_x^2*n_y^2 - 5*n_x^2*n_y + n_x*n_y^3 - 5*n_x*n_y^2 + 12*n_x*n_y - 3*n_x - 3*n_y))/(3*(n_x^2*n_y + n_x*n_y^2 - 4*n_x*n_y + n_x + n_y)*(4*n_x^2*n_y^2 - 5*n_x^2*n_y + 3*n_x^2 - 5*n_x*n_y^2 + 3*n_y^2) - (n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 6*n_x^2*n_y - 3*n_x^2 + 6*n_x*n_y^2 - 3*n_y^2)*(n_x^3*n_y + 2*n_x^2*n_y^2 - 5*n_x^2*n_y + n_x*n_y^3 - 5*n_x*n_y^2 + 12*n_x*n_y - 3*n_x - 3*n_y))
+  n_x*n_y*(3*m2^2*(n_x^2 + 2*n_x*n_y + n_y^2)*(4*n_x^2*n_y^2 - 5*n_x^2*n_y + 3*n_x^2 - 5*n_x*n_y^2 + 3*n_y^2) - m4*n_x*n_y*(n_x + n_y)*(n_x^3*n_y + 2*n_x^2*n_y^2 - 5*n_x^2*n_y + n_x*n_y^3 - 5*n_x*n_y^2 + 12*n_x*n_y - 3*n_x - 3*n_y))/(3*(n_x^2*n_y + n_x*n_y^2 - 4*n_x*n_y + n_x + n_y)*(4*n_x^2*n_y^2 - 5*n_x^2*n_y + 3*n_x^2 - 5*n_x*n_y^2 + 3*n_y^2) - (n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 6*n_x^2*n_y - 3*n_x^2 + 6*n_x*n_y^2 - 3*n_y^2)*(n_x^3*n_y + 2*n_x^2*n_y^2 - 5*n_x^2*n_y + n_x*n_y^3 - 5*n_x*n_y^2 + 12*n_x*n_y - 3*n_x - 3*n_y))
 }
 
 #' @family pooled estimates (two-sample)
@@ -124,7 +124,7 @@ uM2M3pool <- function(m2, m3, m5, n_x, n_y) {
 #' uM5pool(m[2], m[3], m[5], nx, ny)
 #' @export
 uM5pool <- function(m2, m3, m5, n_x, n_y) {
-    n_x^2*n_y^2*(10*m2*m3*(n_x^2 + 2*n_x*n_y + n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + m5*n_x*n_y*(n_x + n_y)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))/(10*(n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 5*n_x^2*n_y - 2*n_x^2 + 5*n_x*n_y^2 - 2*n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + (n_x^4*n_y^3 + n_x^3*n_y^4 - 10*n_x^3*n_y^3 + 10*n_x^3*n_y^2 - 10*n_x^3*n_y + 4*n_x^3 + 10*n_x^2*n_y^3 - 10*n_x*n_y^3 + 4*n_y^3)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))
+  n_x^2*n_y^2*(10*m2*m3*(n_x^2 + 2*n_x*n_y + n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + m5*n_x*n_y*(n_x + n_y)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))/(10*(n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 5*n_x^2*n_y - 2*n_x^2 + 5*n_x*n_y^2 - 2*n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + (n_x^4*n_y^3 + n_x^3*n_y^4 - 10*n_x^3*n_y^3 + 10*n_x^3*n_y^2 - 10*n_x^3*n_y + 4*n_x^3 + 10*n_x^2*n_y^3 - 10*n_x*n_y^3 + 4*n_y^3)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))
 }
 
 

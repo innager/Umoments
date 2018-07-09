@@ -34,8 +34,8 @@ n <- 10
 smp <- rgamma(n, shape = 3)
 m <- mean(smp)
 for (j in 2:6) {
-  m <- c(m, mean((smp - m[1])^j)) 
-}                                   
+  m <- c(m, mean((smp - m[1])^j))
+}
 uM6(m[2], m[3], m[4], m[6], n)
 }
 \seealso{

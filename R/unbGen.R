@@ -23,66 +23,66 @@
 #'   and third, second and fourth), and \code{"M2pow2", "M2pow3", "M3pow2"} for
 #'   powers of the moments - corresponding to estimates of squared variance,
 #'   cubed variance, and squared third moment.
-#' @seealso \code{\link{unbMom2smp}} for two-sample pooled estimates.
+#' @seealso \code{\link{uMpool}} for two-sample pooled estimates.
 #' @examples
 #' smp <- rgamma(10, shape = 3)
-#' unbMom(smp, 6)
+#' uM(smp, 6)
 #' @export
 #'
 #' @importFrom stats var
 #' @importFrom utils combn
 #'
-unbMom <- function(smp, order) {
-    n <- length(smp)
-    order <- trunc(order)
-    if (order < 0) {
-        return()
-    }
-    if (order == 0) {
-        return(1)
-    }
-    if (order == 1) {
-        return(0)
-    }
-    res <- c(M2 = var(smp))
-    if (order == 2) {
-        return(res)
-    }
-    m1 <- mean(smp)
-    m3 <- mean((smp - m1)^3)
-    M3 <- uM3(m3, n)
-    res <- c(res, M3 = M3)
-    if (order == 3) {
-        return(res)
-    }
-    m2 <- mean((smp - m1)^2)
-    m4 <- mean((smp - m1)^4)
-    M2pow2 <- uM2pow2(m2, m4, n)
-    M4     <- uM4(    m2, m4, n)
-    res <- c(res, M2pow2 = M2pow2, M4 = M4)
-    if (order == 4) {
-        return(res)
-    }
-    m5 <- mean((smp - m1)^5)
-    M2M3 <- uM2M3(m2, m3, m5, n)
-    M5   <- uM5(  m2, m3, m5, n)
-    res <- c(res, M2M3 = M2M3, M5 = M5)
-    if (order == 5) {
-        return(res)
-    }
-    m6 <- mean((smp - m1)^6)
-    M2pow3 <- uM2pow3(m2, m3, m4, m6, n)
-    M3pow2 <- uM3pow2(m2, m3, m4, m6, n)
-    M2M4   <- uM2M4(  m2, m3, m4, m6, n)
-    M6     <- uM6(    m2, m3, m4, m6, n)
-    res <- c(res, M2pow3 = M2pow3, M3pow2 = M3pow2, M2M4 = M2M4, M6 = M6)
-    if (order == 6) {
-        return(res)
-    }
-    if (order > 6) {
-        warning("orders higher than 6th are not available")
-        return(res)
-    }
+uM <- function(smp, order) {
+  n <- length(smp)
+  order <- trunc(order)
+  if (order < 0) {
+    return()
+  }
+  if (order == 0) {
+    return(1)
+  }
+  if (order == 1) {
+    return(0)
+  }
+  res <- c(M2 = var(smp))
+  if (order == 2) {
+    return(res)
+  }
+  m1 <- mean(smp)
+  m3 <- mean((smp - m1)^3)
+  M3 <- uM3(m3, n)
+  res <- c(res, M3 = M3)
+  if (order == 3) {
+    return(res)
+  }
+  m2 <- mean((smp - m1)^2)
+  m4 <- mean((smp - m1)^4)
+  M2pow2 <- uM2pow2(m2, m4, n)
+  M4     <- uM4(    m2, m4, n)
+  res <- c(res, M2pow2 = M2pow2, M4 = M4)
+  if (order == 4) {
+    return(res)
+  }
+  m5 <- mean((smp - m1)^5)
+  M2M3 <- uM2M3(m2, m3, m5, n)
+  M5   <- uM5(  m2, m3, m5, n)
+  res <- c(res, M2M3 = M2M3, M5 = M5)
+  if (order == 5) {
+    return(res)
+  }
+  m6 <- mean((smp - m1)^6)
+  M2pow3 <- uM2pow3(m2, m3, m4, m6, n)
+  M3pow2 <- uM3pow2(m2, m3, m4, m6, n)
+  M2M4   <- uM2M4(  m2, m3, m4, m6, n)
+  M6     <- uM6(    m2, m3, m4, m6, n)
+  res <- c(res, M2pow3 = M2pow3, M3pow2 = M3pow2, M2M4 = M2M4, M6 = M6)
+  if (order == 6) {
+    return(res)
+  }
+  if (order > 6) {
+    warning("orders higher than 6th are not available")
+    return(res)
+  }
 }
 
 #' Pooled central moment estimates - two-sample
@@ -99,74 +99,74 @@ unbMom <- function(smp, order) {
 #' \mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and
 #' cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 #'
-#' @inherit unbMom params return
+#' @inherit uM params return
 #' @param a vector of the same length as \code{smp} specifying categories of
 #'   observations (should contain two unique values).
-#' @seealso \code{\link{unbMom}} for one-sample unbiased estimates.
+#' @seealso \code{\link{uM}} for one-sample unbiased estimates.
 #' @examples
 #' nsmp <- 23
 #' smp <- rgamma(nsmp, shape = 3)
 #' treatment <- sample(0:1, size = nsmp, replace = TRUE)
-#' unbMom2smp(smp, treatment, 6)
+#' uMpool(smp, treatment, 6)
 #' @export
-unbMom2smp <- function(smp, a, order) {
-    if (length(unique(a)) != 2 | length(a) != length(smp)) {
-        stop("design does not match sample")
-    }
-    smpx <- smp[a == max(a)]
-    smpy <- smp[a == min(a)]
-    nx <- length(smpx)
-    ny <- length(smpy)
-    order <- trunc(order)
-    if (order < 0) {
-        return()
-    }
-    if (order == 0) {
-        return(1)
-    }
-    if (order == 1) {
-        return(0)
-    }
-    mx1 <- mean(smpx)
-    my1 <- mean(smpy)
-    m2 <- mean(c((smpx - mx1)^2, (smpy - my1)^2))
-    M2 <- uM2pool(m2, nx, ny)
-    res <- c(M2 = M2)
-    if (order == 2) {
-        return(res)
-    }
-    m3 <- mean(c((smpx - mx1)^3, (smpy - my1)^3))
-    M3 <- uM3pool(m3, nx, ny)
-    res <- c(res, M3 = M3)
-    if (order == 3) {
-        return(res)
-    }
-    m4 <-  mean(c((smpx - mx1)^4, (smpy - my1)^4))
-    M2pow2 <- uM2pow2pool(m2, m4, nx, ny)
-    M4     <- uM4pool(    m2, m4, nx, ny)
-    res <- c(res, M2pow2 = M2pow2, M4 = M4)
-    if (order == 4) {
-        return(res)
-    }
-    m5 <- mean(c((smpx - mx1)^5, (smpy - my1)^5))
-    M2M3 <- uM2M3pool(m2, m3, m5, nx, ny)
-    M5   <- uM5pool(  m2, m3, m5, nx, ny)
-    res <- c(res, M2M3 = M2M3, M5 = M5)
-    if (order == 5) {
-        return(res)
-    }
-    m6 <- mean(c((smpx - mx1)^6, (smpy - my1)^6))
-    M2pow3 <- uM2pow3pool(m2, m3, m4, m6, nx, ny)
-    M3pow2 <- uM3pow2pool(m2, m3, m4, m6, nx, ny)
-    M2M4   <- uM2M4pool(  m2, m3, m4, m6, nx, ny)
-    M6     <- uM6pool(    m2, m3, m4, m6, nx, ny)
-    res <- c(res, M2pow3 = M2pow3, M3pow2 = M3pow2, M2M4 = M2M4, M6 = M6)
-    if (order == 6) {
-        return(res)
-    }
-    if (order > 6) {
-        warning("orders higher than 6th are not available")
-        return(res)
-    }
+uMpool <- function(smp, a, order) {
+  if (length(unique(a)) != 2 | length(a) != length(smp)) {
+    stop("design does not match sample")
+  }
+  smpx <- smp[a == max(a)]
+  smpy <- smp[a == min(a)]
+  nx <- length(smpx)
+  ny <- length(smpy)
+  order <- trunc(order)
+  if (order < 0) {
+    return()
+  }
+  if (order == 0) {
+    return(1)
+  }
+  if (order == 1) {
+    return(0)
+  }
+  mx1 <- mean(smpx)
+  my1 <- mean(smpy)
+  m2 <- mean(c((smpx - mx1)^2, (smpy - my1)^2))
+  M2 <- uM2pool(m2, nx, ny)
+  res <- c(M2 = M2)
+  if (order == 2) {
+    return(res)
+  }
+  m3 <- mean(c((smpx - mx1)^3, (smpy - my1)^3))
+  M3 <- uM3pool(m3, nx, ny)
+  res <- c(res, M3 = M3)
+  if (order == 3) {
+    return(res)
+  }
+  m4 <-  mean(c((smpx - mx1)^4, (smpy - my1)^4))
+  M2pow2 <- uM2pow2pool(m2, m4, nx, ny)
+  M4     <- uM4pool(    m2, m4, nx, ny)
+  res <- c(res, M2pow2 = M2pow2, M4 = M4)
+  if (order == 4) {
+    return(res)
+  }
+  m5 <- mean(c((smpx - mx1)^5, (smpy - my1)^5))
+  M2M3 <- uM2M3pool(m2, m3, m5, nx, ny)
+  M5   <- uM5pool(  m2, m3, m5, nx, ny)
+  res <- c(res, M2M3 = M2M3, M5 = M5)
+  if (order == 5) {
+    return(res)
+  }
+  m6 <- mean(c((smpx - mx1)^6, (smpy - my1)^6))
+  M2pow3 <- uM2pow3pool(m2, m3, m4, m6, nx, ny)
+  M3pow2 <- uM3pow2pool(m2, m3, m4, m6, nx, ny)
+  M2M4   <- uM2M4pool(  m2, m3, m4, m6, nx, ny)
+  M6     <- uM6pool(    m2, m3, m4, m6, nx, ny)
+  res <- c(res, M2pow3 = M2pow3, M3pow2 = M3pow2, M2M4 = M2M4, M6 = M6)
+  if (order == 6) {
+    return(res)
+  }
+  if (order > 6) {
+    warning("orders higher than 6th are not available")
+    return(res)
+  }
 }
 

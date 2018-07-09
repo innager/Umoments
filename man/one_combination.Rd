@@ -7,13 +7,14 @@
 one_combination(powvect, smpsize = "n")
 }
 \arguments{
-\item{powvect}{vector of \eqn{j_1, \dots, j_m}{j[1], ..., j[m]} (see
-"Details") of exponents for non-central moments. The index of an element of
-this vector indicates a corresponding order, e.g. for \eqn{E(\bar{X}^5
-X^4)}{E(X-bar^5 X^4)}, \code{powvect = c(5, 0, 0, 1)}. Thus the vector will
-have \code{m} elements if \code{m} is the highest order.}
+\item{powvect}{vector of non-negative integers representing exponents
+\eqn{j_1, \dots, j_m}{j[1], ..., j[m]} of non-central moments in
+expectation (see "Details"). The position (index) of an element of this
+vector indicates a corresponding moment, e.g. for \eqn{E(\overline{X}^5
+\overline{X^4})}, \code{powvect = c(5, 0, 0, 1)}. Thus the vector will have
+\code{m} elements if \code{m}'th is the highest moment.}
 
-\item{smpsize}{symbol to be used for sample size.}
+\item{smpsize}{symbol to be used for sample size. Defaults to \code{"n"}.}
 }
 \value{
 A string representing a symbolic expression for further processing

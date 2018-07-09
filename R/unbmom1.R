@@ -21,12 +21,12 @@
 #' smp <- rgamma(n, shape = 3)
 #' m <- mean(smp)
 #' for (j in 2:6) {
-#'   m <- c(m, mean((smp - m[1])^j)) 
-#' }                                   
+#'   m <- c(m, mean((smp - m[1])^j))
+#' }
 #' uM6(m[2], m[3], m[4], m[6], n)
 #' @export
 uM6 <- function(m2, m3, m4, m6, n) {
-    15*m2^3*(3*n - 10)*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 40*(n^2 - 6*n + 10)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 15*(n^3 - 8*n^2 + 29*n - 40)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 31*n^2 - 39*n + 40)*m6*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
+  15*m2^3*(3*n - 10)*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 40*(n^2 - 6*n + 10)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 15*(n^3 - 8*n^2 + 29*n - 40)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 31*n^2 - 39*n + 40)*m6*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -40,7 +40,7 @@ uM6 <- function(m2, m3, m4, m6, n) {
 #' uM2(m[2], n) - var(smp)
 #' @export
 uM2 <- function(m2, n) {
-    m2*n/(n - 1)
+  m2*n/(n - 1)
 }
 
 #' @family unbiased estimates (one-sample)
@@ -56,7 +56,7 @@ uM2 <- function(m2, n) {
 #' uM3(m[3], n)
 #' @export
 uM3 <- function(m3, n) {
-    m3*n^2/((n - 1)*(n - 2))
+  m3*n^2/((n - 1)*(n - 2))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -73,7 +73,7 @@ uM3 <- function(m3, n) {
 #' uM2pow2(m[2], m[4], n)
 #' @export
 uM2pow2 <- function(m2, m4, n) {
-    (n^2 - 3*n + 3)*m2^2*n/((n - 1)*(n - 2)*(n - 3)) - m4*n/((n - 2)*(n - 3))
+  (n^2 - 3*n + 3)*m2^2*n/((n - 1)*(n - 2)*(n - 3)) - m4*n/((n - 2)*(n - 3))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -89,7 +89,7 @@ uM2pow2 <- function(m2, m4, n) {
 #' uM4(m[2], m[4], n)
 #' @export
 uM4 <- function(m2, m4, n) {
-    -3*m2^2*(2*n - 3)*n/((n - 1)*(n - 2)*(n - 3)) + (n^2 - 2*n + 3)*m4*n/((n - 1)*(n - 2)*(n - 3))
+  -3*m2^2*(2*n - 3)*n/((n - 1)*(n - 2)*(n - 3)) + (n^2 - 2*n + 3)*m4*n/((n - 1)*(n - 2)*(n - 3))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -109,7 +109,7 @@ uM4 <- function(m2, m4, n) {
 #' uM2M3(m[2], m[3], m[5], n)
 #' @export
 uM2M3 <- function(m2, m3, m5, n) {
-    (n^2 - 2*n + 2)*m2*m3*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)) - m5*n^2/((n - 2)*(n - 3)*(n - 4))
+  (n^2 - 2*n + 2)*m2*m3*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)) - m5*n^2/((n - 2)*(n - 3)*(n - 4))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -126,7 +126,7 @@ uM2M3 <- function(m2, m3, m5, n) {
 #' uM5(m[2], m[3], m[5], n)
 #' @export
 uM5 <- function(m2, m3, m5, n) {
-    -10*m2*m3*n^2/((n - 1)*(n - 3)*(n - 4)) + (n^2 - 5*n + 10)*m5*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4))
+  -10*m2*m3*n^2/((n - 1)*(n - 3)*(n - 4)) + (n^2 - 5*n + 10)*m5*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -143,7 +143,7 @@ uM5 <- function(m2, m3, m5, n) {
 #' uM2pow3(m[2], m[3], m[4], m[6], n)
 #' @export
 uM2pow3 <- function(m2, m3, m4, m6, n) {
-    (n^2 - 7*n + 15)*m2^3*n^2/((n - 1)*(n - 3)*(n - 4)*(n - 5)) - 3*(n^2 - 5*n + 10)*m2*m4*n/((n - 1)*(n - 3)*(n - 4)*(n - 5)) + 2*m6*n/((n - 3)*(n - 4)*(n - 5)) - 2*(3*n^2 - 15*n + 20)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
+  (n^2 - 7*n + 15)*m2^3*n^2/((n - 1)*(n - 3)*(n - 4)*(n - 5)) - 3*(n^2 - 5*n + 10)*m2*m4*n/((n - 1)*(n - 3)*(n - 4)*(n - 5)) + 2*m6*n/((n - 3)*(n - 4)*(n - 5)) - 2*(3*n^2 - 15*n + 20)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -161,7 +161,7 @@ uM2pow3 <- function(m2, m3, m4, m6, n) {
 #' uM3pow2(m[2], m[3], m[4], m[6], n)
 #' @export
 uM3pow2 <- function(m2, m3, m4, m6, n) {
-    -3*(3*n^2 - 15*n + 20)*m2^3*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - (n^2 - n + 4)*m6*n/((n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 8*n^3 + 25*n^2 - 10*n - 40)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + 3*(2*n^3 - 5*n^2 - 5*n + 20)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
+  -3*(3*n^2 - 15*n + 20)*m2^3*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - (n^2 - n + 4)*m6*n/((n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 8*n^3 + 25*n^2 - 10*n - 40)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + 3*(2*n^3 - 5*n^2 - 5*n + 20)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }
 
 #' @family unbiased estimates (one-sample)
@@ -179,5 +179,5 @@ uM3pow2 <- function(m2, m3, m4, m6, n) {
 #' uM2M4(m[2], m[3], m[4], m[6], n)
 #' @export
 uM2M4 <- function(m2, m3, m4, m6, n) {
-    -3*m2^3*(2*n - 5)*n^2/((n - 1)*(n - 3)*(n - 4)*(n - 5)) + 4*(n^2 - 5*n + 10)*m3^2*n/((n - 1)*(n - 3)*(n - 4)*(n - 5)) - (n^2 - 3*n + 8)*m6*n/((n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 53*n^2 - 135*n + 120)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
+  -3*m2^3*(2*n - 5)*n^2/((n - 1)*(n - 3)*(n - 4)*(n - 5)) + 4*(n^2 - 5*n + 10)*m3^2*n/((n - 1)*(n - 3)*(n - 4)*(n - 5)) - (n^2 - 3*n + 8)*m6*n/((n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 53*n^2 - 135*n + 120)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5))
 }

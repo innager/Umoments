@@ -1,7 +1,7 @@
 ---
 title: "Unbiased Central Moment Estimates"
-author: "Inna Gerlovina"
-date: "`r Sys.Date()`"
+#author: "Inna Gerlovina"
+#date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Unbiased Central Moment Estimates}
@@ -9,27 +9,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The package _Umoments_ provides/calculates unbiased central moment estimates and their two-sample counterparts/analogs, also known as pooled estimates (sample variance and pooled variance are two common [second order] examples of such estimates). [notation here for the central moments] These estimates can be calculated from 
+_Umoments_ package calculates unbiased central moment estimates and their two-sample analogs, also known as pooled estimates, up to sixth order (sample variance and pooled variance are commonly used second order examples of corresponding estimators). Orders four and higher include powers and products of moments - for example, fifth moment and a product of second and third moments are both of fifth order; those estimators are also included in the package. The estimates can be obtained directly from samples or from naïve biased moment estimates.
 
-* naive biased estimates;
-* data samples.
+If the estimates of orders beyond sixth are needed, they can be generated using the set of functions also provided in the package. Those functions generate symbolic expressions for expectations of moment combinations of an arbitrary order and, in addition to moment estimation, can be used for other derivations that require such expectations (_e.g._ Edgeworth expansions).
 
-Say set of functions
-Included in the package are the functions that calculate the moments and their powers and products up to the sixth order: _e.g._ unbiased estimates of $\mu_2 \mu_3$ and $\mu_5$ are of the fifth order, and $\mu_2^3$, $\mu_3^2$, $\mu_2 \mu_4$, and $\mu_6$ are all of the sixth order. If the estimates of the orders beyond sixth are needed, they can be generated using the set of functions also provided in the package. These functions can also be used to generate complex expectations and other derivations such as Edgeworth expansions.
+## Estimators: naive biased to unbiased
 
-After that: if higher orders are needed, can be generated using the set of functions [possibly mention github Jupyter notebooks repo]. This set of functions is useful for blah-blah (quickly mention here and then expand in the section; also check what exactly is in that file).
+For a sample $X_1, \dotsc, X_n$, a naïve biased estimate of a $k$'th central moment $\mu_k$ is 
+$$m_k = \frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^k, \qquad k = 2, 3, \dotsc \, .$$ These biased estimates together with the sample size $n$ can be used to calculate unbiased estimates of a given order, _e.g._ $Var(X) = \frac{n}{n - 1} m_2$.
 
-Description: Calculate one-sample unbiased central moment estimates and
-    two-sample pooled estimates up to 6th order. The package includes unbiased
-    estimates of powers and products of central moments up to specified order.
-    It also provides the machinery for obtaining unbiased central moment
-    estimators of an arbitrary order beyond 6th.
-    
-## Estimators - naïve biased to unbiased
-
-For a sample $X_1, \dotsc, X_n$, a naïve biased estimate of a $k$'th central moment $\mu_k$ is $m_k = \frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^k$, $k = 2, 3, \dotsc$. These biased estimates together with the sample size $n$ can be used to calculate unbiased estimates of a given order, e.g. $Var(X) = \frac{n}{n - 1} m_2$.
-
-Let $M(\cdot)$ be an unbiased estimator of an expression inside the parentheses, e.g. $E\left[M(\mu_2^3)\right] = \mu_2^3$. Note that in general $M(\mu_k \mu_l) \neq M(\mu_k) M(\mu_l)$. The package provides functions to calculate unbiased estimates of all the powers and combinations (up to a certain order) of the form $\mu_2^{j_2} \mu_3^{j_3} \dotsm$. For orders greater than $3$, each estimator of that order requires all the naïve unbiased estimates that comprise that order: for example, the estimators of $6$'th order are $M(\mu_2^2)$, $M(\mu_2 \mu_4)$, $M(\mu_3^2)$, $M(\mu_6)$, and all of them use estimates $m_2$, $m_3$, $m_4$, and $m_6$. 
+Let $M(\cdot)$ be an unbiased estimator of an expression inside the parentheses, e.g. $E\left[M(\mu_2^3)\right] = \mu_2^3$. Note that in general $M(\mu_k \mu_l) \neq M(\mu_k) M(\mu_l)$. The package provides functions to calculate unbiased estimates of all the powers and combinations (up to sixth order) of the form $\mu_2^{j_2} \mu_3^{j_3} \dotsm$. For orders greater than three, each estimator of that order requires all the naïve unbiased estimates that comprise that order: for example, estimators of $6$'th order are $M(\mu_2^2)$, $M(\mu_2 \mu_4)$, $M(\mu_3^2)$, $M(\mu_6)$, and each one of them uses estimates $m_2$, $m_3$, $m_4$, and $m_6$. 
 
 ```{r}
 library(Umoments)
@@ -37,76 +26,74 @@ n <- 10
 # draw a sample
 smp <- rgamma(n, shape = 3) 
 # calculate biased estimates up to 6'th order
-mbias <- vector(mode = "double", length = 6) 
-mbias[1] <- mean(smp)
+m <- numeric(6) 
+m[1] <- mean(smp)
 for (j in 2:6) {
-  mbias[j] <- mean((smp - mbias[1])^j)
+  m[j] <- mean((smp - m[1])^j)
 }
 ```
-Examples of unbiased estimates - $M(\mu_4)$
+Calculate unbiased estimates - examples: 
+
+$M(\mu_4)$
 ```{r}
-uM4(mbias[2], mbias[4], n)          
+uM4(m[2], m[4], n)          
 ```
 $M(\mu_2 \, \mu_3) \neq M(\mu_2) M(\mu_3)$
 ```{r}
-uM2M3(mbias[2], mbias[3], mbias[5], n)  
-uM2(mbias[2], n)*uM3(mbias[3], n)
+uM2M3(m[2], m[3], m[5], n)  
+uM2(m[2], n)*uM3(m[3], n)
 ```
 $M\big(\mu_3^2\big)$
 ```{r}
-uM3pow2(mbias[2], mbias[3], mbias[4], mbias[6], n)              
+uM3pow2(m[2], m[3], m[4], m[6], n)              
 ```
 
-Two-sample pooled estimates are calculated in a similar manner: for a sample $X_1, \dotsc, X_{n_x}, Y_1, \dotsc, Y_{n_y}$, let $m_{xk} = \frac{1}{n_x} \sum_{i = 1}^n_x (X_i - \bar{X})^k$, and  $m_{yk} = \frac{1}{n_y} \sum_{i = 1}^n_y (Y_i - \bar{Y})^k$. From these naïve biased estimates and $n_x$, $n_y$
-
-## Estimates from the sample
-
-
-
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+Two-sample pooled estimates are calculated in a similar manner. For a sample $X_1, \dotsc, X_{n_x}, Y_1, \dotsc, Y_{n_y}$, let 
+$$m_k = \frac{\sum_{i = 1}^{n_x} (X_i - \bar{X})^k + \sum_{i = 1}^{n_y} (Y_i - \bar{Y})^k}{n_x + n_y}.$$ 
+These naïve biased estimates together with $n_x$, $n_y$ are sufficient for calculating unbiased pooled estimates of a corresponding order.
+```{r}
+nx <- 10
+ny <- 8
+shp <- 3
+smpx <- rgamma(nx, shape = shp) - shp
+smpy <- rgamma(ny, shape = shp)
+mx <- mean(smpx)
+my <- mean(smpy)
+m  <- numeric(6)
+for (j in 2:6) {
+  m[j] <- mean(c((smpx - mx)^j, (smpy - my)^j))
+}
+uM2pool(m[2], nx, ny)
+uM2pow3pool(m[2], m[3], m[4], m[6], nx, ny)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+## Estimates obtained from a sample
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+Functions _uM()_ and _uMpool()_ calculate estimates directly from sample, for one- and two-sample statistics respectively. For a specified order (one of function's  arguments), all estimates up to that order are returned in the named vector, where element names indicate the estimands and correspond to the names of the functions that calculate single estimates - thus, for example, the estimate of $\mu_4$ is named _"M4"_, the estimate of $\mu_2 \mu_3$ - _"M2M3"_, and the estimate of $\mu_3^2$ - _"M3pow2"_.
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+# simulate a sample
+nsmp <- 23
+smp <- rgamma(nsmp, shape = 3)
+# two categories for pooled estimates
+treatment <- sample(0:1, size = nsmp, replace = TRUE)  
+# estimates
+uM(smp, 5)
+uMpool(smp, treatment, 6)
 ```
 
-Also a quote using `>`:
+Note that even if $n_x = n_y$, the estimates for one and two-sample statistics are not the same since two-sample ones have fewer degrees of freedom.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+## Higher order estimates (symbolic expressions for expectations) 
+
+If estimates beyond sixth order need to be calculated, higher order estimators can be derived using these  _Jupiter_ or _Sage notebook_ [templates][gitnb]. Functions provided in this package generate symbolic expressions for the main part of these derivations: expectations of powers and products of non-central moments of the form 
+$$E\left(\overline{X^\phantom{1}}^{j_1} \, \overline{X^2}^{j_2} \, \overline{X^3}^{j_3} \dotsm \right), \text{ where } \overline{X^j} = \frac{1}{n} \sum_{i = 1}^j X_i^j.$$ 
+
+First argument to _one_combination()_ function is a vector $(j_1, j_2, \dotsc)$ of non-negative integers, where a position/index of an element indicates the moment that is to be raised to the power of corresponding value. Thus, vector $(5, 0, 0, 1)$ would be used to generate $E\left(\overline{X^\phantom{1}}^5 \, \overline{X^4}\right)$ and vector $(0, 3, 4)$ - to generate $E\left(\overline{X^2}^3 \, \overline{X^3}^4\right)$.
+
+Example: generate $E\left(\overline{X^\phantom{1}}^5 \, \overline{X^3}^2 \, \overline{X^4}\right)$ for a sample $X_1, \dotsc, X_{n_x}$:
+```{r}
+one_combination(c(5, 0, 2, 1), "n_x")
+```
+
+[gitnb]: https://github.com/innager/unbiasedMoments
