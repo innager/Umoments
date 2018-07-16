@@ -9,7 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-_Umoments_ package calculates unbiased central moment estimates and their two-sample analogs, also known as pooled estimates, up to sixth order (sample variance and pooled variance are commonly used second order examples of corresponding estimators). Orders four and higher include powers and products of moments - for example, fifth moment and a product of second and third moments are both of fifth order; those estimators are also included in the package. The estimates can be obtained directly from samples or from naïve biased moment estimates.
+## Introduction
+
+$\texttt{Umoments}$ package calculates unbiased central moment estimates and their two-sample analogs, also known as pooled estimates, up to sixth order (sample variance and pooled variance are commonly used second order examples of corresponding estimators). Orders four and higher include powers and products of moments - for example, fifth moment and a product of second and third moments are both of fifth order; those estimators are also included in the package. The estimates can be obtained directly from samples or from naïve biased moment estimates.
 
 If the estimates of orders beyond sixth are needed, they can be generated using the set of functions also provided in the package. Those functions generate symbolic expressions for expectations of moment combinations of an arbitrary order and, in addition to moment estimation, can be used for other derivations that require such expectations (_e.g._ Edgeworth expansions).
 
@@ -18,7 +20,7 @@ If the estimates of orders beyond sixth are needed, they can be generated using 
 For a sample $X_1, \dotsc, X_n$, a naïve biased estimate of a $k$'th central moment $\mu_k$ is 
 $$m_k = \frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^k, \qquad k = 2, 3, \dotsc \, .$$ These biased estimates together with the sample size $n$ can be used to calculate unbiased estimates of a given order, _e.g._ $Var(X) = \frac{n}{n - 1} m_2$.
 
-Let $M(\cdot)$ be an unbiased estimator of an expression inside the parentheses, e.g. $E\left[M(\mu_2^3)\right] = \mu_2^3$. Note that in general $M(\mu_k \mu_l) \neq M(\mu_k) M(\mu_l)$. The package provides functions to calculate unbiased estimates of all the powers and combinations (up to sixth order) of the form $\mu_2^{j_2} \mu_3^{j_3} \dotsm$. For orders greater than three, each estimator of that order requires all the naïve unbiased estimates that comprise that order: for example, estimators of $6$'th order are $M(\mu_2^2)$, $M(\mu_2 \mu_4)$, $M(\mu_3^2)$, $M(\mu_6)$, and each one of them uses estimates $m_2$, $m_3$, $m_4$, and $m_6$. 
+Let $M(\cdot)$ be an unbiased estimator of an expression inside the parentheses, e.g. $E\left[M(\mu_2^3)\right] = \mu_2^3$. Note that in general $M(\mu_k \mu_l) \neq M(\mu_k) M(\mu_l)$. The package provides functions to calculate unbiased estimates of all the powers and combinations (up to sixth order) of the form $\mu_2^{j_2} \mu_3^{j_3} \dotsm$. For orders greater than three, each estimator of that order requires all the naïve unbiased estimates that comprise that order: for example, estimators of $6$'th order are $M(\mu_2^3)$, $M(\mu_2 \mu_4)$, $M(\mu_3^2)$, $M(\mu_6)$, and each one of them uses estimates $m_2$, $m_3$, $m_4$, and $m_6$.
 
 ```{r}
 library(Umoments)
@@ -32,6 +34,7 @@ for (j in 2:6) {
   m[j] <- mean((smp - m[1])^j)
 }
 ```
+
 Calculate unbiased estimates - examples: 
 
 $M(\mu_4)$
@@ -69,7 +72,7 @@ uM2pow3pool(m[2], m[3], m[4], m[6], nx, ny)
 
 ## Estimates obtained from a sample
 
-Functions _uM()_ and _uMpool()_ calculate estimates directly from sample, for one- and two-sample statistics respectively. For a specified order (one of function's  arguments), all estimates up to that order are returned in the named vector, where element names indicate the estimands and correspond to the names of the functions that calculate single estimates - thus, for example, the estimate of $\mu_4$ is named _"M4"_, the estimate of $\mu_2 \mu_3$ - _"M2M3"_, and the estimate of $\mu_3^2$ - _"M3pow2"_.
+Functions $\texttt{uM()}$ and $\texttt{uMpool()}$ calculate estimates directly from sample, for one- and two-sample statistics respectively. For a specified order (one of function's  arguments), all estimates up to that order are returned in the named vector, where element names indicate the estimands and correspond to the names of the functions that calculate single estimates - thus, for example, the estimate of $\mu_4$ is named $\texttt{"M4"}$, the estimate of $\mu_2 \mu_3$ - $\texttt{"M2M3"}$, and the estimate of $\mu_3^2$ - $\texttt{"M3pow2"}$.
 
 ```{r}
 # simulate a sample
@@ -82,18 +85,28 @@ uM(smp, 5)
 uMpool(smp, treatment, 6)
 ```
 
-Note that even if $n_x = n_y$, the estimates for one and two-sample statistics are not the same since two-sample ones have fewer degrees of freedom.
+Note that even if $n_x = n_y$, the estimates for one- and two-sample statistics are not the same since two-sample ones have fewer degrees of freedom.
 
 ## Higher order estimates (symbolic expressions for expectations) 
 
-If estimates beyond sixth order need to be calculated, higher order estimators can be derived using these  _Jupiter_ or _Sage notebook_ [templates][gitnb]. Functions provided in this package generate symbolic expressions for the main part of these derivations: expectations of powers and products of non-central moments of the form 
-$$E\left(\overline{X^\phantom{1}}^{j_1} \, \overline{X^2}^{j_2} \, \overline{X^3}^{j_3} \dotsm \right), \text{ where } \overline{X^j} = \frac{1}{n} \sum_{i = 1}^j X_i^j.$$ 
+If estimates beyond sixth order need to be calculated, higher order estimators can be derived using these  _Jupyter_ or _Sage notebook_ [templates][github]. Consider random variable $X$, $E(X) = 0$, and random sample $X_1, \dotsc, X_n$. The main part of these derivations is finding expectations of the form
 
-First argument to _one_combination()_ function is a vector $(j_1, j_2, \dotsc)$ of non-negative integers, where a position/index of an element indicates the moment that is to be raised to the power of corresponding value. Thus, vector $(5, 0, 0, 1)$ would be used to generate $E\left(\overline{X^\phantom{1}}^5 \, \overline{X^4}\right)$ and vector $(0, 3, 4)$ - to generate $E\left(\overline{X^2}^3 \, \overline{X^3}^4\right)$.
+\begin{equation} 
+E\left(\overline{X^{\phantom{1}}}^{j_1} \, \overline{X^2}^{j_2} \, \overline{X^3}^{j_3} \dotsm \right), \text{ where } \overline{X^j} = \frac{1}{n} \sum_{i = 1}^j X_i^j.
+\label{eq:expect}
+\end{equation}
 
-Example: generate $E\left(\overline{X^\phantom{1}}^5 \, \overline{X^3}^2 \, \overline{X^4}\right)$ for a sample $X_1, \dotsc, X_{n_x}$:
-```{r}
+Functions provided in the package generate symbolic expressions for such expectation in terms of central moments $\mu_k$ and sample size $n$. 
+
+The expectation above is generated by $\texttt{one_combination()}$ function. The first argument to the function is a vector $(j_1, j_2, \dotsc)$ of non-negative integers, where a position/index $i$ of a vector element indicates the order of the sample moment $\overline{X^i}$ that is to be raised to the power of a corresponding value. Thus, vector $(5, 0, 0, 1)$ would be used to generate $E\left(\overline{X^{\phantom{1}}}^5 \, \overline{X^4}\right)$ and vector $(0, 3, 4)$ - to generate $E\left(\overline{X^2}^3 \, \overline{X^3}^4\right)$. A character string representing sample size symbol can be passed as an optional second argument. 
+
+Example: generate $E\left(\overline{X^{\phantom{1}}}^5 \, \overline{X^3}^2 \, \overline{X^4}\right)$ for a sample $X_1, \dotsc, X_{n_x}$
+```{r, eval = FALSE}
 one_combination(c(5, 0, 2, 1), "n_x")
+```
+```{r, echo = FALSE}
+#cat(strwrap(one_combination(c(5, 0, 2, 1), "n_x")), sep = "\n")
+writeLines(strwrap(one_combination(c(5, 0, 2, 1), "n_x")))
 ```
 
 [gitnb]: https://github.com/innager/unbiasedMoments

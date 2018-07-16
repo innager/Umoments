@@ -1,0 +1,214 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\addtolength{\oddsidemargin}{-.5in}%
+\addtolength{\textwidth}{1in}%
+
+\usepackage{Sweave}
+\begin{document}
+
+\input{vignetteUmom-concordance}
+\title{Unbiased Central Moment Estimates}
+\author{Inna Gerlovina$^{1, 2}$, Alan Hubbard$^{1}$}
+\maketitle
+
+\begin{scriptsize}
+ \noindent $^1$University of California, Berkeley \newline
+ \noindent $^2$University of California, San Francisco
+\end{scriptsize}
+\begin{center}
+ {\small \texttt{innager@berkeley.edu}}
+\end{center}
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\texttt{Umoments} package calculates unbiased central moment estimates and their two-sample analogs, also known as pooled estimates, up to sixth order (sample variance and pooled variance are commonly used second order examples of corresponding estimators). Orders four and higher include powers and products of moments - for example, fifth moment and a product of second and third moments are both of fifth order; those estimators are also included in the package. The estimates can be obtained directly from samples or from na\"ive biased moment estimates. \par
+\vspace{1em}
+If the estimates of orders beyond sixth are needed, they can be generated using the set of functions also provided in the package. Those functions generate symbolic expressions for expectations of moment combinations of an arbitrary order and, in addition to moment estimation, can be used for other derivations that require such expectations (\textit{e.g.} Edgeworth expansions).
+
+\section{Estimators: na\"ive biased to unbiased}
+
+For a sample $X_1, \dotsc, X_n$, a na\"ive biased estimate of a $k$'th central moment $\mu_k$ is
+\begin{equation}
+m_k = \frac{1}{n} \sum_{i = 1}^n (X_i - \bar{X})^k, \qquad k = 2, 3, \dotsc \, .
+\end{equation}
+These biased estimates together with the sample size $n$ can be used to calculate unbiased estimates of a given order, \textit{e.g.} $Var(X) = \frac{n}{n - 1} m_2$. \par
+\vspace{1em}
+
+\begin{sloppypar}
+Let $M(\cdot)$ be an unbiased estimator of an expression inside the parentheses, e.g. $E\left[M(\mu_2^3)\right] = \mu_2^3$. Note that in general $M(\mu_k \mu_l) \neq M(\mu_k) M(\mu_l)$. The package provides functions to calculate unbiased estimates of all the powers and combinations (up to sixth order) of the form $\mu_2^{j_2} \mu_3^{j_3} \dotsm$. For orders greater than three, each estimator of that order requires all the na\"ive unbiased estimates that comprise that order: for example, estimators of $6$'th order are $M(\mu_2^3)$, $M(\mu_2 \mu_4)$, $M(\mu_3^2)$, $M(\mu_6)$, and each one of them uses estimates $m_2$, $m_3$, $m_4$, and $m_6$.
+\end{sloppypar}
+
+\begin{Schunk}
+\begin{Sinput}
+> library(Umoments)
+> n <- 10
+> # draw a sample
+> smp <- rgamma(n, shape = 3)
+> # calculate biased estimates up to 6th order
+> m <- numeric(6)
+> m[1] <- mean(smp)
+> for (j in 2:6) {
++   m[j] <- mean((smp - m[1])^j)
++ }
+\end{Sinput}
+\end{Schunk}
+
+Calculate unbiased estimates - examples:
+
+$M(\mu_4)$
+\begin{Schunk}
+\begin{Sinput}
+> uM4(m[2], m[4], n)
+\end{Sinput}
+\begin{Soutput}
+[1] 50.96546
+\end{Soutput}
+\end{Schunk}
+$M(\mu_2 \, \mu_3) \neq M(\mu_2) M(\mu_3)$
+\begin{Schunk}
+\begin{Sinput}
+> uM2M3(m[2], m[3], m[5], n)
+\end{Sinput}
+\begin{Soutput}
+[1] 28.74841
+\end{Soutput}
+\begin{Sinput}
+> uM2(m[2], n)*uM3(m[3], n)
+\end{Sinput}
+\begin{Soutput}
+[1] 35.27032
+\end{Soutput}
+\end{Schunk}
+$M\big(\mu_3^2\big)$
+\begin{Schunk}
+\begin{Sinput}
+> uM3pow2(m[2], m[3], m[4], m[6], n)
+\end{Sinput}
+\begin{Soutput}
+[1] -9.807567
+\end{Soutput}
+\end{Schunk}
+
+\begin{sloppypar}
+Two-sample pooled estimates are calculated in a similar manner. For a sample $X_1, \dotsc, X_{n_x}, Y_1, \dotsc, Y_{n_y}$, let
+\begin{equation}
+m_k = \frac{\sum_{i = 1}^{n_x} (X_i - \bar{X})^k + \sum_{i = 1}^{n_y} (Y_i - \bar{Y})^k}{n_x + n_y}.
+\end{equation}
+These na\"ive biased estimates together with $n_x$, $n_y$ are sufficient for calculating unbiased pooled estimates of a corresponding order.
+\end{sloppypar}
+\begin{Schunk}
+\begin{Sinput}
+> nx <- 10
+> ny <- 8
+> shp <- 3
+> smpx <- rgamma(nx, shape = shp) - shp
+> smpy <- rgamma(ny, shape = shp)
+> mx <- mean(smpx)
+> my <- mean(smpy)
+> m  <- numeric(6)
+> for (j in 2:6) {
++   m[j] <- mean(c((smpx - mx)^j, (smpy - my)^j))
++ }
+> uM2pool(m[2], nx, ny)
+\end{Sinput}
+\begin{Soutput}
+[1] 3.760201
+\end{Soutput}
+\begin{Sinput}
+> uM2pow3pool(m[2], m[3], m[4], m[6], nx, ny)
+\end{Sinput}
+\begin{Soutput}
+[1] 25.98305
+\end{Soutput}
+\end{Schunk}
+
+\section{Estimates obtained from a sample}
+
+Functions \texttt{uM()} and \texttt{uMpool()} calculate estimates directly from sample, for one- and two-sample statistics respectively. For a specified order (one of function's  arguments), all estimates up to that order are returned in the named vector, where element names indicate the estimands and correspond to the names of the functions that calculate single estimates - thus, for example, the estimate of $\mu_4$ is named \texttt{"M4"}, the estimate of $\mu_2 \mu_3$ - \texttt{"M2M3"}, and the estimate of $\mu_3^2$ - \texttt{"M3pow2"}.
+
+\begin{Schunk}
+\begin{Sinput}
+> # simulate a sample
+> nsmp <- 23
+> smp <- rgamma(nsmp, shape = 3)
+> # two categories for pooled estimates
+> treatment <- sample(0:1, size = nsmp, replace = TRUE)
+> # estimates
+> uM(smp, 5)
+\end{Sinput}
+\begin{Soutput}
+       M2        M3    M2pow2        M4      M2M3        M5 
+ 2.015065  1.271971  3.892643  7.399219  2.434467 12.032586 
+\end{Soutput}
+\begin{Sinput}
+> uMpool(smp, treatment, 6)
+\end{Sinput}
+\begin{Soutput}
+        M2         M3     M2pow2         M4       M2M3         M5     M2pow3 
+ 2.0801543  1.4903796  4.0918524  8.7234076  2.7842843 16.8284188  7.6525674 
+    M3pow2       M2M4         M6 
+ 0.3709571 16.0948387 61.2186714 
+\end{Soutput}
+\end{Schunk}
+
+Note that even if $n_x = n_y$, the estimates for one- and two-sample statistics are not the same since two-sample ones have fewer degrees of freedom.
+
+\section{Higher order estimates (symbolic expressions for expectations)}
+
+If estimates beyond sixth order need to be calculated, higher order estimators can be derived using these  \textit{Jupyter} or \textit{Sage notebook} \href{https://github.com/innager/unbiasedMoments}{templates}. Consider random variable $X$, $E(X) = 0$, and random sample $X_1, \dotsc, X_n$. The main part of these derivations is finding expectations of the form
+\begin{equation} \label{eq:expect}
+E\left(\overline{X^{\phantom{1}}}^{j_1} \, \overline{X^2}^{j_2} \, \overline{X^3}^{j_3} \dotsm \right), \text{ where } \overline{X^j} = \frac{1}{n} \sum_{i = 1}^j X_i^j.
+\end{equation}
+Functions provided in the package generate symbolic expressions for such expectation in terms of central moments $\mu_k$ and sample size $n$. \par
+\vspace{1em}
+
+The expectation \eqref{eq:expect} is generated by \texttt{one\_combination()} function. The first argument to the function is a vector $(j_1, j_2, \dotsc)$ of non-negative integers, where a position/index $i$ of a vector element indicates the order of the sample moment $\overline{X^i}$ that is to be raised to the power of a corresponding value. Thus, vector $(5, 0, 0, 1)$ would be used to generate $E\left(\overline{X^{\phantom{1}}}^5 \, \overline{X^4}\right)$ and vector $(0, 3, 4)$ - to generate $E\left(\overline{X^2}^3 \, \overline{X^3}^4\right)$. A character string representing sample size symbol can be passed as an optional second argument. \par
+\vspace{1em}
+
+Example: generate $E\left(\overline{X^{\phantom{1}}}^5 \, \overline{X^3}^2 \, \overline{X^4}\right)$ for a sample $X_1, \dotsc, X_{n_x}$
+\begin{Schunk}
+\begin{Sinput}
+> one_combination(c(5, 0, 2, 1), "n_x")
+\end{Sinput}
+\end{Schunk}
+\begin{Schunk}
+\begin{Soutput}
+( 1*n_x*mu15^1 + 10*n_x*(n_x-1)*mu2^1*mu13^1 +
+15*n_x*(n_x-1)*(n_x-2)*mu2^2*mu11^1 +
+15*n_x*(n_x-1)*(n_x-2)*(n_x-3)*(n_x-4)*mu5^1*mu3^2*mu2^2 +
+30*n_x*(n_x-1)*(n_x-2)*(n_x-3)*(n_x-4)*mu4^2*mu3^1*mu2^2 +
+30*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu8^1*mu3^1*mu2^2 +
+45*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu7^1*mu4^1*mu2^2 +
+15*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu6^1*mu5^1*mu2^2 +
+30*n_x*(n_x-1)*(n_x-2)*mu3^1*mu2^1*mu10^1 +
+10*n_x*(n_x-1)*(n_x-2)*(n_x-3)*(n_x-4)*mu4^1*mu3^3*mu2^1 +
+30*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu7^1*mu3^2*mu2^1 +
+90*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu6^1*mu4^1*mu3^1*mu2^1 +
+60*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu5^2*mu3^1*mu2^1 +
+120*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu5^1*mu4^2*mu2^1 +
+70*n_x*(n_x-1)*(n_x-2)*mu9^1*mu4^1*mu2^1 +
+90*n_x*(n_x-1)*(n_x-2)*mu8^1*mu5^1*mu2^1 +
+60*n_x*(n_x-1)*(n_x-2)*mu7^1*mu6^1*mu2^1 + 12*n_x*(n_x-1)*mu3^1*mu12^1
++ 10*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu6^1*mu3^3 +
+66*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu5^1*mu4^1*mu3^2 +
+21*n_x*(n_x-1)*(n_x-2)*mu9^1*mu3^2 +
+30*n_x*(n_x-1)*(n_x-2)*(n_x-3)*mu4^3*mu3^1 +
+72*n_x*(n_x-1)*(n_x-2)*mu8^1*mu4^1*mu3^1 +
+72*n_x*(n_x-1)*(n_x-2)*mu7^1*mu5^1*mu3^1 +
+30*n_x*(n_x-1)*(n_x-2)*mu6^2*mu3^1 + 16*n_x*(n_x-1)*mu4^1*mu11^1 +
+45*n_x*(n_x-1)*(n_x-2)*mu7^1*mu4^2 +
+126*n_x*(n_x-1)*(n_x-2)*mu6^1*mu5^1*mu4^1 + 26*n_x*(n_x-1)*mu5^1*mu10^1
++ 30*n_x*(n_x-1)*(n_x-2)*mu5^3 + 31*n_x*(n_x-1)*mu9^1*mu6^1 +
+27*n_x*(n_x-1)*mu8^1*mu7^1 ) / n_x^8
+\end{Soutput}
+\end{Schunk}
+\end{document}
+
+- update HTML file with everything
+
+
+
+
