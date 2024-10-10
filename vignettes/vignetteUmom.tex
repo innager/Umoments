@@ -4,6 +4,8 @@
 \addtolength{\oddsidemargin}{-.5in}%
 \addtolength{\textwidth}{1in}%
 
+% \VignetteIndexEntry{Unbiased Central Moment Estimates}
+
 \usepackage{Sweave}
 \begin{document}
 
@@ -64,7 +66,7 @@ $M(\mu_4)$
 > uM4(m[2], m[4], n)
 \end{Sinput}
 \begin{Soutput}
-[1] 50.96546
+[1] 19.55365
 \end{Soutput}
 \end{Schunk}
 $M(\mu_2 \, \mu_3) \neq M(\mu_2) M(\mu_3)$
@@ -73,13 +75,13 @@ $M(\mu_2 \, \mu_3) \neq M(\mu_2) M(\mu_3)$
 > uM2M3(m[2], m[3], m[5], n)
 \end{Sinput}
 \begin{Soutput}
-[1] 28.74841
+[1] 6.482493
 \end{Soutput}
 \begin{Sinput}
 > uM2(m[2], n)*uM3(m[3], n)
 \end{Sinput}
 \begin{Soutput}
-[1] 35.27032
+[1] 9.427239
 \end{Soutput}
 \end{Schunk}
 $M\big(\mu_3^2\big)$
@@ -88,7 +90,7 @@ $M\big(\mu_3^2\big)$
 > uM3pow2(m[2], m[3], m[4], m[6], n)
 \end{Sinput}
 \begin{Soutput}
-[1] -9.807567
+[1] 0.1994849
 \end{Soutput}
 \end{Schunk}
 
@@ -115,13 +117,13 @@ These na\"ive biased estimates together with $n_x$, $n_y$ are sufficient for cal
 > uM2pool(m[2], nx, ny)
 \end{Sinput}
 \begin{Soutput}
-[1] 3.760201
+[1] 2.517422
 \end{Soutput}
 \begin{Sinput}
 > uM2pow3pool(m[2], m[3], m[4], m[6], nx, ny)
 \end{Sinput}
 \begin{Soutput}
-[1] 25.98305
+[1] 9.894568
 \end{Soutput}
 \end{Schunk}
 
@@ -141,16 +143,16 @@ Functions \texttt{uM()} and \texttt{uMpool()} calculate estimates directly from 
 \end{Sinput}
 \begin{Soutput}
        M2        M3    M2pow2        M4      M2M3        M5 
- 2.015065  1.271971  3.892643  7.399219  2.434467 12.032586 
+ 2.662239  1.414705  6.884096 10.936924  3.797728 13.431952 
 \end{Soutput}
 \begin{Sinput}
 > uMpool(smp, treatment, 6)
 \end{Sinput}
 \begin{Soutput}
         M2         M3     M2pow2         M4       M2M3         M5     M2pow3 
- 2.0801543  1.4903796  4.0918524  8.7234076  2.7842843 16.8284188  7.6525674 
+ 2.6852498  0.9044491  7.0461947  9.4848189  2.4864209  7.1976129 18.0143547 
     M3pow2       M2M4         M6 
- 0.3709571 16.0948387 61.2186714 
+-1.5872031 24.9370027 32.3112768 
 \end{Soutput}
 \end{Schunk}
 
@@ -205,9 +207,16 @@ Example: generate $E\left(\overline{X^{\phantom{1}}}^5 \, \overline{X^3}^2 \, \o
 27*n_x*(n_x-1)*mu8^1*mu7^1 ) / n_x^8
 \end{Soutput}
 \end{Schunk}
+
+\begin{thebibliography}{}
+ \bibitem{Gerlovina2019}
+  Gerlovina, Inna and Hubbard, Alan E. (2019).
+  Computer algebra and algorithms for unbiased moment estimation of arbitrary order.
+  \textit{Cogent Mathematics \& Statistics, 6}(1), https://doi.org/10.1080/25742558.2019.1701917
+\end{thebibliography}
+
 \end{document}
 
-- update HTML file with everything
 
 
 

@@ -33,9 +33,15 @@ for (j in 2:4) {
 uM4(m[2], m[4], n)
 }
 \seealso{
-Other unbiased estimates (one-sample): \code{\link{uM2M3}},
-  \code{\link{uM2M4}}, \code{\link{uM2pow2}},
-  \code{\link{uM2pow3}}, \code{\link{uM2}},
-  \code{\link{uM3pow2}}, \code{\link{uM3}},
-  \code{\link{uM5}}, \code{\link{uM6}}
+Other unbiased estimates (one-sample): 
+\code{\link{uM2}()},
+\code{\link{uM2M3}()},
+\code{\link{uM2M4}()},
+\code{\link{uM2pow2}()},
+\code{\link{uM2pow3}()},
+\code{\link{uM3}()},
+\code{\link{uM3pow2}()},
+\code{\link{uM5}()},
+\code{\link{uM6}()}
 }
+\concept{unbiased estimates (one-sample)}

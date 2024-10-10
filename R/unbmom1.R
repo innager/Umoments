@@ -131,7 +131,7 @@ uM5 <- function(m2, m3, m5, n) {
 
 #' @family unbiased estimates (one-sample)
 #' @inherit uM6 title description params
-#' @return Unbiased estimate of cubed variance  central moment
+#' @return Unbiased estimate of cubed second central moment
 #'   \eqn{\mu_2^3}{\mu[2]^3}, where \eqn{\mu_2}{\mu[2]} is a variance.
 #' @examples
 #' n <- 10

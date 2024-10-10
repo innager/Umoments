@@ -39,6 +39,11 @@ cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 smp <- rgamma(10, shape = 3)
 uM(smp, 6)
 }
+\references{
+Gerlovina, I. and Hubbard, A.E. (2019). \emph{Computer algebra
+  and algorithms for unbiased moment estimation of arbitrary order.} Cogent
+  Mathematics & Statistics, 6(1).
+}
 \seealso{
 \code{\link{uMpool}} for two-sample pooled estimates.
 }

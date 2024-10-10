@@ -4,6 +4,8 @@
 \addtolength{\oddsidemargin}{-.5in}%
 \addtolength{\textwidth}{1in}%
 
+% \VignetteIndexEntry{Unbiased Central Moment Estimates}
+
 \begin{document}
 
 \SweaveOpts{concordance=TRUE}
@@ -129,9 +131,16 @@ one_combination(c(5, 0, 2, 1), "n_x")
 #cat(strwrap(one_combination(c(5, 0, 2, 1), "n_x")), sep = "\n")
 writeLines(strwrap(one_combination(c(5, 0, 2, 1), "n_x")))
 @
+
+\begin{thebibliography}{}
+ \bibitem{Gerlovina2019}
+  Gerlovina, Inna and Hubbard, Alan E. (2019).
+  Computer algebra and algorithms for unbiased moment estimation of arbitrary order.
+  \textit{Cogent Mathematics \& Statistics, 6}(1), https://doi.org/10.1080/25742558.2019.1701917
+\end{thebibliography}
+
 \end{document}
 
-- update HTML file with everything
 
 
 

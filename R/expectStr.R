@@ -1,10 +1,7 @@
 #=========================================================================#
-# functions to generate expressions for:                                  #
-# 	EDGEWORTH EXPANSIONS,                                                 #
-#   UNBIASED MOMENT ESTIMATES (including products and powers of moments)  #
-# E(Xbar^k1*X2bar^k2*X3bar^k3*...)                                        #
-# powvect: c(k1, k2, k3, ...), k's can be 0 if needed,                    #
-#          e.g. E(Xbar^k1*X3bar^k3) -> c(k1, 0, k3)                       #
+#                     E(Xbar^k1*X2bar^k2*X3bar^k3*...)                    #
+#                 powvect: c(k1, k2, k3, ...), k's can be 0,              #
+#                  e.g. E(Xbar^k1*X3bar^k3) -> c(k1, 0, k3)               #
 #=========================================================================#
 
 # sorting the groups in a specific way;
@@ -75,7 +72,7 @@ calculate_coef <- function(str_vect, K, excl) {
   coef_numer(str_vect, K, excl)/coef_denom(str_vect)
 }
 
-# numerator for calculate_coef()
+# numerator for calculate_coef(), use choose() to get integer coefs
 coef_numer <- function(str_vect, K, excl) {
   coefs <- matrix(nrow = K, ncol = length(str_vect))
   for (k in 1:K) {
@@ -130,7 +127,7 @@ all_groups <- function(powvect) {
   }
   all_empty <- apply(mat, 2, function(s) all(s == ""))
   mat <- unique(mat[, !all_empty])[-1, ]
-  if (class(mat) != "matrix")
+  if (!inherits(mat, "matrix"))
     mat <- matrix(mat, nrow = 1)                  # if vector
   colnames(mat) <- c(paste("group", 1:(ncol(mat) - 2)), "d", "coef")
   return(mat)

@@ -53,9 +53,15 @@ for (j in 2:6) {
 uM2pow3pool(m[2], m[3], m[4], m[6], nx, ny)
 }
 \seealso{
-Other pooled estimates (two-sample): \code{\link{uM2M3pool}},
-  \code{\link{uM2M4pool}}, \code{\link{uM2pool}},
-  \code{\link{uM2pow2pool}}, \code{\link{uM3pool}},
-  \code{\link{uM3pow2pool}}, \code{\link{uM4pool}},
-  \code{\link{uM5pool}}, \code{\link{uM6pool}}
+Other pooled estimates (two-sample): 
+\code{\link{uM2M3pool}()},
+\code{\link{uM2M4pool}()},
+\code{\link{uM2pool}()},
+\code{\link{uM2pow2pool}()},
+\code{\link{uM3pool}()},
+\code{\link{uM3pow2pool}()},
+\code{\link{uM4pool}()},
+\code{\link{uM5pool}()},
+\code{\link{uM6pool}()}
 }
+\concept{pooled estimates (two-sample)}

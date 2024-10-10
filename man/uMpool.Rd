@@ -44,6 +44,11 @@ smp <- rgamma(nsmp, shape = 3)
 treatment <- sample(0:1, size = nsmp, replace = TRUE)
 uMpool(smp, treatment, 6)
 }
+\references{
+Gerlovina, I. and Hubbard, A.E. (2019). \emph{Computer algebra
+  and algorithms for unbiased moment estimation of arbitrary order.} Cogent
+  Mathematics & Statistics, 6(1).
+}
 \seealso{
 \code{\link{uM}} for one-sample unbiased estimates.
 }

@@ -23,7 +23,7 @@ uM2pow3(m2, m3, m4, m6, n)
 \item{n}{sample size.}
 }
 \value{
-Unbiased estimate of cubed variance  central moment
+Unbiased estimate of cubed second central moment
   \eqn{\mu_2^3}{\mu[2]^3}, where \eqn{\mu_2}{\mu[2]} is a variance.
 }
 \description{
@@ -40,9 +40,15 @@ for (j in 2:6) {
 uM2pow3(m[2], m[3], m[4], m[6], n)
 }
 \seealso{
-Other unbiased estimates (one-sample): \code{\link{uM2M3}},
-  \code{\link{uM2M4}}, \code{\link{uM2pow2}},
-  \code{\link{uM2}}, \code{\link{uM3pow2}},
-  \code{\link{uM3}}, \code{\link{uM4}}, \code{\link{uM5}},
-  \code{\link{uM6}}
+Other unbiased estimates (one-sample): 
+\code{\link{uM2}()},
+\code{\link{uM2M3}()},
+\code{\link{uM2M4}()},
+\code{\link{uM2pow2}()},
+\code{\link{uM3}()},
+\code{\link{uM3pow2}()},
+\code{\link{uM4}()},
+\code{\link{uM5}()},
+\code{\link{uM6}()}
 }
+\concept{unbiased estimates (one-sample)}
